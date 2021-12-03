@@ -1,4 +1,7 @@
 Laravel Blade Autocomplete for Sublime Text 3
+
+autocomplete for `@extends` `@section` and `@include`
+
 =============
 
 Sublime Text Autocomplete plugin for Laravel Blade Files
