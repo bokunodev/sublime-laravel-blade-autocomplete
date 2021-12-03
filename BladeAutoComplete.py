@@ -42,7 +42,7 @@ class BladeAutoComplete(sublime_plugin.EventListener):
         with open(layout_path, 'r') as file:
             content = file.read()
             file.close()
-        matches = re.findall(r'\@yield\((?:\'|\")(.*?)(?:\'|\")\)', content, re.M | re.I)
+        matches = re.findall(r"""@yield\((?:'|")(.*?)(?:'|")\)""", content, re.M | re.I)
         return matches
 
     def on_query_completions(self, view, prefix, locations):
@@ -54,7 +54,7 @@ class BladeAutoComplete(sublime_plugin.EventListener):
         self.load_blade_files(view)
         line = view.substr(view.line(view.sel()[0])).strip()
 
-        if line.startswith('@extends'):
+        if line.startswith('@extends') or line.startswith('@include'):
             return (self.blade_files,
                     sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
@@ -64,7 +64,7 @@ class BladeAutoComplete(sublime_plugin.EventListener):
 
             body = view.substr(sublime.Region(0, cursor))
 
-            matches = re.search(r'\@extends\((?:\'|\")(.*?)(?:\'|\")\)', body, re.M | re.I)
+            matches = re.search(r"""@extends\((?:'|")(.*?)(?:'|")\)""", body, re.M | re.I)
             if not matches:
                 return []
 
